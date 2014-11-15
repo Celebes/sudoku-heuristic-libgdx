@@ -53,14 +53,11 @@ public class WorldRenderer implements Disposable {
 	}
 
 	private void renderShape() {
-		shapeRenderer.begin(ShapeType.Line);
-		
 		worldController.getCameraHelper().applyTo(camera);
 		shapeRenderer.setProjectionMatrix(camera.combined);
-		
 		worldController.board.render(shapeRenderer);
 		
-		shapeRenderer.end();
+		
 	}
 	
 	private void renderSprite() {

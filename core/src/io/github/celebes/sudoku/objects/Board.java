@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class Board extends AbstractGameObject {
@@ -57,18 +58,60 @@ public class Board extends AbstractGameObject {
 	}
 
 	private void renderGrid(ShapeRenderer shapeRenderer) {
-		Gdx.gl.glLineWidth(3);
+
 		shapeRenderer.setColor(0, 0, 0, 1);
 		
+		/*
+		 * Cienkie
+		 */
+		
+		Gdx.gl.glLineWidth(2);
+		shapeRenderer.begin(ShapeType.Line);
+		
 		// linie pionowe
-		for(int i=0; i<=Constants.GRID_SIZE; i++) {
-			shapeRenderer.line(i, 0, i, Constants.VIEWPORT_HEIGHT);
+		for(int i=1; i<Constants.GRID_SIZE; i++) {
+			if(i % 3 != 0) {
+				shapeRenderer.line(i, 0, i, Constants.VIEWPORT_HEIGHT);
+			}
 		}
 		
 		// linie poziome
-		for(int i=0; i<=Constants.GRID_SIZE; i++) {
-			shapeRenderer.line(0, i, Constants.VIEWPORT_HEIGHT, i);
+		for(int i=1; i<Constants.GRID_SIZE; i++) {
+			if(i % 3 != 0) {
+				shapeRenderer.line(0, i, Constants.VIEWPORT_HEIGHT, i);
+			}
 		}
+		
+		shapeRenderer.end();
+		
+		/*
+		 * Grube
+		 */
+		
+		Gdx.gl.glLineWidth(6);
+		shapeRenderer.begin(ShapeType.Line);
+
+		// ramka
+		shapeRenderer.line(0, 0, 0, Constants.VIEWPORT_HEIGHT);
+		shapeRenderer.line(Constants.GRID_SIZE, 0, Constants.GRID_SIZE, Constants.VIEWPORT_HEIGHT);
+		shapeRenderer.line(0, 0, Constants.VIEWPORT_HEIGHT, 0);
+		shapeRenderer.line(0, Constants.GRID_SIZE, Constants.VIEWPORT_HEIGHT, Constants.GRID_SIZE);
+		
+		// linie pionowe
+		for(int i=1; i<Constants.GRID_SIZE; i++) {
+			if(i % 3 == 0) {
+				shapeRenderer.line(i, 0, i, Constants.VIEWPORT_HEIGHT);
+			}
+		}
+		
+		// linie poziome
+		for(int i=1; i<Constants.GRID_SIZE; i++) {
+			if(i % 3 == 0) {
+				shapeRenderer.line(0, i, Constants.VIEWPORT_HEIGHT, i);
+			}
+		}
+		
+		shapeRenderer.end();
 	}
 	
 	private void renderNumbers(SpriteBatch batch) {
