@@ -38,6 +38,14 @@ public class Board extends AbstractGameObject {
 	public void setBoardNumber(int column, int row, int val) {
 		board[column][row].setNumber(val);
 	}
+	
+	public void setEntireBoard(int[][] numbers) {
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				setBoardNumber(i, j, numbers[i][j]);
+			}
+		}
+	}
 
 	private void initTestNumbers() {
 		setBoardNumber(0, 0, 1);
