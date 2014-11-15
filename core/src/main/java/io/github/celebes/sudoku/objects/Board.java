@@ -20,23 +20,9 @@ public class Board extends AbstractGameObject {
 		bounds.set(0, 0, dimension.x, dimension.y);
 		
 		initBoard();
-		//initTestNumbers();
+		initTestNumbers();
+		//initTestBoard();
 		
-		int[][] sudokuBoard = {
-				{2, 4, 8,	3, 9, 5,	7, 1, 6},
-				{5, 7, 1,	6, 2, 8,	3, 4, 9},
-				{9, 3, 6,	7, 4, 1,	5, 8, 2},
-				
-				{6, 8, 2,	5, 3, 9,	1, 7, 4},
-				{3, 5, 9,	1, 7, 4,	6, 2, 8},
-				{7, 1, 4,	8, 6, 2,	9, 5, 3},
-				
-				{8, 6, 3,	4, 1, 7,	2, 9, 5},
-				{1, 9, 5,	2, 8, 6,	4, 3, 7},
-				{4, 2, 7,	9, 5, 3,	8, 6, 1}
-		};
-		
-		setEntireBoard(sudokuBoard);
 	}
 	
 	private void initBoard() {
@@ -51,28 +37,58 @@ public class Board extends AbstractGameObject {
 		}
 	}
 	
-	public void setBoardNumber(int column, int row, int val) {
+	public void setBoardNumber(int column, int row, int val, boolean initial) {
 		board[column][row].setNumber(val);
+		board[column][row].setInitial(initial);
 	}
 	
 	public void setEntireBoard(int[][] numbers) {
 		for(int i=0; i<Constants.GRID_SIZE; i++) {
 			for(int j=0; j<Constants.GRID_SIZE; j++) {
-				setBoardNumber(j, Constants.GRID_SIZE-1-i, numbers[i][j]);
+				boolean initial = (numbers[i][j] != 0);
+				setBoardNumber(j, Constants.GRID_SIZE-1-i, numbers[i][j], initial);
 			}
 		}
 	}
+	
+	private void initTestBoard() {
+		int[][] sudokuBoard = {
+				
+			{2, 4, 8,	3, 9, 5,	7, 1, 6},
+			{5, 7, 1,	6, 2, 8,	3, 4, 9},
+			{9, 3, 6,	7, 4, 1,	5, 8, 2},
+			
+			{6, 8, 2,	5, 3, 9,	1, 7, 4},
+			{3, 5, 9,	1, 7, 4,	6, 2, 8},
+			{7, 1, 4,	8, 6, 2,	9, 5, 3},
+			
+			{8, 6, 3,	4, 1, 7,	2, 9, 5},
+			{1, 9, 5,	2, 8, 6,	4, 3, 7},
+			{4, 2, 7,	9, 5, 3,	8, 6, 1}
+			
+		};
+
+		setEntireBoard(sudokuBoard);
+	}
 
 	private void initTestNumbers() {
-		setBoardNumber(0, 0, 1);
-		setBoardNumber(1, 1, 2);
-		setBoardNumber(2, 2, 3);
-		setBoardNumber(3, 3, 4);
-		setBoardNumber(4, 4, 5);
-		setBoardNumber(5, 5, 6);
-		setBoardNumber(6, 6, 7);
-		setBoardNumber(7, 7, 8);
-		setBoardNumber(8, 8, 9);
+		int[][] sudokuBoard = {
+			
+			{0, 0, 0,	0, 0, 0,	0, 0, 9},
+			{0, 0, 0,	0, 0, 0,	0, 8, 0},
+			{0, 0, 0,	0, 0, 0,	7, 0, 0},
+			
+			{0, 0, 0,	0, 0, 6,	0, 0, 0},
+			{0, 0, 0,	0, 5, 0,	0, 0, 0},
+			{0, 0, 0,	4, 0, 0,	0, 0, 0},
+			
+			{0, 0, 3,	0, 0, 0,	0, 0, 0},
+			{0, 2, 0,	0, 0, 0,	0, 0, 0},
+			{1, 0, 0,	0, 0, 0,	0, 0, 0}
+			
+		};
+
+		setEntireBoard(sudokuBoard);
 	}
 	
 	public boolean validateBoard() {
@@ -124,7 +140,34 @@ public class Board extends AbstractGameObject {
 	}
 
 	private void renderGrid(ShapeRenderer shapeRenderer) {
+		
+		/*
+		 * Kolory
+		 */
+		
+		shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1);
+		
+		/*
+		 * Pola inicjalne, ktorych nie mozna zmienic
+		 */
+		
+		shapeRenderer.begin(ShapeType.Filled);
+		
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				Cell cell = board[j][i];
+				if(cell.isInitial() == true) {
+					shapeRenderer.rect(cell.position.x, cell.position.y, cell.bounds.width, cell.bounds.height);
+				}
+			}
+		}
+		
+		shapeRenderer.end();
 
+		/*
+		 * Linie
+		 */
+		
 		shapeRenderer.setColor(0, 0, 0, 1);
 		
 		/*

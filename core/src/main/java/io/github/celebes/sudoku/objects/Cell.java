@@ -10,11 +10,13 @@ public class Cell extends AbstractGameObject implements Comparable<Cell> {
 	public static final String TAG = Cell.class.getName();
 	
 	private int number;
+	private boolean initial;
 	
 	public Cell() {
 		dimension.set(1.0f, 1.0f);
 		origin.set(dimension.x / 2, dimension.y / 2);
 		bounds.set(0, 0, dimension.x, dimension.y);
+		initial = false;
 	}
 	
 	public void render(SpriteBatch batch) {
@@ -35,6 +37,14 @@ public class Cell extends AbstractGameObject implements Comparable<Cell> {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	public boolean isInitial() {
+		return initial;
+	}
+
+	public void setInitial(boolean initial) {
+		this.initial = initial;
 	}
 
 	@Override
