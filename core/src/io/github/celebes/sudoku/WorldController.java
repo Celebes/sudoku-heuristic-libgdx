@@ -86,6 +86,10 @@ public class WorldController extends InputAdapter {
 			Gdx.app.log(TAG, "RESET!");
 			init();
 		}
+		
+		if(Gdx.input.isKeyPressed(Keys.V)) {
+			Gdx.app.log(TAG, "VALIDATION RESULT = " + (board.validateBoard() ? "OK" : "BAD"));
+		}
 	}
 	
 	private void moveCamera(float x, float y) {

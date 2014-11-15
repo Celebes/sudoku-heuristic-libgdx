@@ -1,14 +1,13 @@
 package io.github.celebes.sudoku.objects;
 
-import io.github.celebes.sudoku.Assets;
 import io.github.celebes.sudoku.utils.Constants;
+
+import java.util.Arrays;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 
 public class Board extends AbstractGameObject {
 	public static final String TAG = Board.class.getName();
@@ -19,7 +18,6 @@ public class Board extends AbstractGameObject {
 		dimension.set(Constants.GRID_SIZE, Constants.GRID_SIZE);
 		origin.set(dimension.x / 2, dimension.y / 2);
 		bounds.set(0, 0, dimension.x, dimension.y);
-		
 		
 		initBoard();
 		initTestNumbers();
@@ -36,17 +34,61 @@ public class Board extends AbstractGameObject {
 			}
 		}
 	}
+	
+	public void setBoardNumber(int column, int row, int val) {
+		board[column][row].setNumber(val);
+	}
 
 	private void initTestNumbers() {
-		board[0][0].setNumber(1);
-		board[1][1].setNumber(2);
-		board[2][2].setNumber(3);
-		board[3][3].setNumber(4);
-		board[4][4].setNumber(5);
-		board[5][5].setNumber(6);
-		board[6][6].setNumber(7);
-		board[7][7].setNumber(8);
-		board[8][8].setNumber(9);
+		setBoardNumber(0, 0, 1);
+		setBoardNumber(1, 1, 2);
+		setBoardNumber(2, 2, 3);
+		setBoardNumber(3, 3, 4);
+		setBoardNumber(4, 4, 5);
+		setBoardNumber(5, 5, 6);
+		setBoardNumber(6, 6, 7);
+		setBoardNumber(7, 7, 8);
+		setBoardNumber(8, 8, 9);
+	}
+	
+	public boolean validateBoard() {
+		
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			Cell[] row = new Cell[9];
+			Cell[] square = new Cell[9];
+			Cell[] column = board[i].clone();
+			
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				row[j] = board[j][i];
+				square[j] = board[(i / 3) * 3 + j / 3][i * 3 % 9 + j % 3];
+			}
+			
+			if(!(validate(column) && validate(row) && validate(square))) {
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+	
+	private boolean validate(Cell[] boardElement) {
+		Arrays.sort(boardElement);
+		
+		for(int i=0; i<boardElement.length-1; i++) {
+			Cell c = boardElement[i];
+			Cell cNext = boardElement[i+1];
+			
+			if(c.getNumber() == 0) {
+				continue;
+			}
+			
+			if(c.getNumber() == cNext.getNumber()) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	public void render(ShapeRenderer shapeRenderer) {

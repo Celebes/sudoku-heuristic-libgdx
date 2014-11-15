@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Cell extends AbstractGameObject {
+public class Cell extends AbstractGameObject implements Comparable<Cell> {
 	public static final String TAG = Cell.class.getName();
 	
 	private int number;
@@ -35,6 +35,11 @@ public class Cell extends AbstractGameObject {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	@Override
+	public int compareTo(Cell cell) {
+		return this.number - cell.number;
 	}
 	
 }
