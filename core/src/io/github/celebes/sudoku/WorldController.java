@@ -1,12 +1,12 @@
 package io.github.celebes.sudoku;
 
+import io.github.celebes.sudoku.objects.Board;
 import io.github.celebes.sudoku.utils.CameraHelper;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
 	public static final String TAG = WorldController.class.getSimpleName();
@@ -16,6 +16,8 @@ public class WorldController extends InputAdapter {
 	
 	private boolean sudokuSolved;
 	
+	public Board board;
+	
 	public WorldController(Game game) {
 		this.game = game;
 		cameraHelper = new CameraHelper();
@@ -24,7 +26,7 @@ public class WorldController extends InputAdapter {
 	}
 	
 	private void init() {
-		
+		board = new Board();
 	}
 	
 	public void update(float deltaTime) {

@@ -1,28 +1,84 @@
 package io.github.celebes.sudoku.objects;
 
+import io.github.celebes.sudoku.Assets;
 import io.github.celebes.sudoku.utils.Constants;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class Board {
+public class Board extends AbstractGameObject {
+	public static final String TAG = Board.class.getName();
 	
-	public Vector2 position;
-	public Vector2 dimension;
-	public Vector2 origin;
-	public Vector2 scale;
-	public float rotation;
+	private Cell[][] board;
 	
 	public Board() {
-		position = new Vector2();
-		dimension = new Vector2(Constants.GRID_SIZE, Constants.GRID_SIZE);
-		origin = new Vector2();
-		scale = new Vector2(1, 1);
-		rotation = 0;
+		dimension.set(Constants.GRID_SIZE, Constants.GRID_SIZE);
+		origin.set(dimension.x / 2, dimension.y / 2);
+		bounds.set(0, 0, dimension.x, dimension.y);
+		
+		
+		initBoard();
+		initTestNumbers();
 	}
 	
+	private void initBoard() {
+		board = new Cell[Constants.GRID_SIZE][Constants.GRID_SIZE];
+		
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				board[i][j] = new Cell();
+				board[i][j].position.x = i;
+				board[i][j].position.y = j;
+			}
+		}
+	}
+
+	private void initTestNumbers() {
+		board[0][0].setNumber(1);
+		board[1][1].setNumber(2);
+		board[2][2].setNumber(3);
+		board[3][3].setNumber(4);
+		board[4][4].setNumber(5);
+		board[5][5].setNumber(6);
+		board[6][6].setNumber(7);
+		board[7][7].setNumber(8);
+		board[8][8].setNumber(9);
+	}
+
 	public void render(ShapeRenderer shapeRenderer) {
-		// na wypadek gdyby trzeba bylo walnac jakies jednokolorowe tlo
+		renderGrid(shapeRenderer);
+	}
+	
+	public void render(SpriteBatch batch) {
+		renderNumbers(batch);
+	}
+
+	private void renderGrid(ShapeRenderer shapeRenderer) {
+		Gdx.gl.glLineWidth(3);
+		shapeRenderer.setColor(0, 0, 0, 1);
+		
+		// linie pionowe
+		for(int i=0; i<=Constants.GRID_SIZE; i++) {
+			shapeRenderer.line(i, 0, i, Constants.VIEWPORT_HEIGHT);
+		}
+		
+		// linie poziome
+		for(int i=0; i<=Constants.GRID_SIZE; i++) {
+			shapeRenderer.line(0, i, Constants.VIEWPORT_HEIGHT, i);
+		}
+	}
+	
+	private void renderNumbers(SpriteBatch batch) {
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				
+				board[i][j].render(batch);
+				
+			}
+		}
 	}
 	
 }
