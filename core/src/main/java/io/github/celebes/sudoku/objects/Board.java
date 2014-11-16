@@ -143,8 +143,6 @@ public class Board extends AbstractGameObject {
 		 * Kolory
 		 */
 		
-		
-		
 		/*
 		 * Pola inicjalne, ktorych nie mozna zmienic
 		 */
@@ -174,6 +172,24 @@ public class Board extends AbstractGameObject {
 			for(int j=0; j<Constants.GRID_SIZE; j++) {
 				Cell cell = board[j][i];
 				if(cell.isHoveredOver() == true) {
+					shapeRenderer.rect(cell.position.x, cell.position.y, cell.bounds.width, cell.bounds.height);
+				}
+			}
+		}
+		
+		shapeRenderer.end();
+		
+		/*
+		 * Pola zaznaczone
+		 */
+		
+		shapeRenderer.setColor(Color.GREEN);
+		shapeRenderer.begin(ShapeType.Filled);
+		
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				Cell cell = board[j][i];
+				if(cell.isSelected() == true) {
 					shapeRenderer.rect(cell.position.x, cell.position.y, cell.bounds.width, cell.bounds.height);
 				}
 			}

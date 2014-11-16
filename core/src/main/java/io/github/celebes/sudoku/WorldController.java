@@ -121,20 +121,81 @@ public class WorldController extends InputAdapter {
 			cameraHelper.setZoom(1);
 		}
 		
-		if(Gdx.input.isKeyPressed(Keys.R)) {
-			Gdx.app.log(TAG, "RESET!");
-			init();
+		// klikanie
+		if(Gdx.input.isTouched()) {
+			for(int i=0; i<Constants.GRID_SIZE; i++) {
+				for(int j=0; j<Constants.GRID_SIZE; j++) {
+					if(board.getBoard()[i][j].isHoveredOver() == true) {
+						board.getBoard()[i][j].setSelected(true);
+					}
+				}
+			}
 		}
-		
-		if(Gdx.input.isKeyPressed(Keys.V)) {
-			Gdx.app.log(TAG, "VALIDATION RESULT = " + (board.validateBoard() ? "OK" : "BAD"));
-		}
+
 	}
 	
 	private void moveCamera(float x, float y) {
 		x += cameraHelper.getPosition().x;
 		y += cameraHelper.getPosition().y;
 		cameraHelper.setPosition(x, y);
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		if(keycode == Keys.R) {
+			Gdx.app.log(TAG, "RESET!");
+			init();
+		}
+		
+		if(keycode == Keys.V) {
+			Gdx.app.log(TAG, "VALIDATION RESULT = " + (board.validateBoard() ? "OK" : "BAD"));
+		}
+		
+		if(keycode == Keys.ENTER || keycode == Keys.ESCAPE) {
+			for(int i=0; i<Constants.GRID_SIZE; i++) {
+				for(int j=0; j<Constants.GRID_SIZE; j++) {
+					if(board.getBoard()[i][j].isSelected() == true) {
+						board.getBoard()[i][j].setSelected(false);
+					}
+				}
+			}
+		}
+		
+		if(keycode == Keys.NUM_0 || keycode == Keys.NUMPAD_0 || keycode == Keys.BACKSPACE) {
+			numberKeyDown(0);
+		} else if(keycode == Keys.NUM_1 || keycode == Keys.NUMPAD_1) {
+			numberKeyDown(1);
+		} else if(keycode == Keys.NUM_2 || keycode == Keys.NUMPAD_2) {
+			numberKeyDown(2);
+		} else if(keycode == Keys.NUM_3 || keycode == Keys.NUMPAD_3) {
+			numberKeyDown(3);
+		} else if(keycode == Keys.NUM_4 || keycode == Keys.NUMPAD_4) {
+			numberKeyDown(4);
+		} else if(keycode == Keys.NUM_5 || keycode == Keys.NUMPAD_5) {
+			numberKeyDown(5);
+		} else if(keycode == Keys.NUM_6 || keycode == Keys.NUMPAD_6) {
+			numberKeyDown(6);
+		} else if(keycode == Keys.NUM_7 || keycode == Keys.NUMPAD_7) {
+			numberKeyDown(7);
+		} else if(keycode == Keys.NUM_8 || keycode == Keys.NUMPAD_8) {
+			numberKeyDown(8);
+		} else if(keycode == Keys.NUM_9 || keycode == Keys.NUMPAD_9) {
+			numberKeyDown(9);
+		}
+		
+		return false;
+	}
+	
+	private void numberKeyDown(int numberKey) {
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				if(board.getBoard()[i][j].isSelected() == true) {
+					board.getBoard()[i][j].setNumber(numberKey);
+					board.getBoard()[i][j].setSelected(false);
+					board.getBoard()[i][j].setInitial(true);
+				}
+			}
+		}
 	}
 
 	public CameraHelper getCameraHelper() {
