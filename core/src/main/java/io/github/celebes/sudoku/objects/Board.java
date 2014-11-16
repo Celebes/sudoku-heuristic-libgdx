@@ -5,6 +5,7 @@ import io.github.celebes.sudoku.utils.Constants;
 import java.util.Arrays;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -14,6 +15,8 @@ public class Board extends AbstractGameObject {
 	
 	private Cell[][] board;
 	
+	private boolean boardComplete;
+	
 	public Board() {
 		dimension.set(Constants.GRID_SIZE, Constants.GRID_SIZE);
 		origin.set(dimension.x / 2, dimension.y / 2);
@@ -22,7 +25,6 @@ public class Board extends AbstractGameObject {
 		initBoard();
 		initTestNumbers();
 		//initTestBoard();
-		
 	}
 	
 	private void initBoard() {
@@ -53,7 +55,6 @@ public class Board extends AbstractGameObject {
 	
 	private void initTestBoard() {
 		int[][] sudokuBoard = {
-				
 			{2, 4, 8,	3, 9, 5,	7, 1, 6},
 			{5, 7, 1,	6, 2, 8,	3, 4, 9},
 			{9, 3, 6,	7, 4, 1,	5, 8, 2},
@@ -65,7 +66,6 @@ public class Board extends AbstractGameObject {
 			{8, 6, 3,	4, 1, 7,	2, 9, 5},
 			{1, 9, 5,	2, 8, 6,	4, 3, 7},
 			{4, 2, 7,	9, 5, 3,	8, 6, 1}
-			
 		};
 
 		setEntireBoard(sudokuBoard);
@@ -73,7 +73,6 @@ public class Board extends AbstractGameObject {
 
 	private void initTestNumbers() {
 		int[][] sudokuBoard = {
-			
 			{0, 0, 0,	0, 0, 0,	0, 0, 9},
 			{0, 0, 0,	0, 0, 0,	0, 8, 0},
 			{0, 0, 0,	0, 0, 0,	7, 0, 0},
@@ -85,7 +84,6 @@ public class Board extends AbstractGameObject {
 			{0, 0, 3,	0, 0, 0,	0, 0, 0},
 			{0, 2, 0,	0, 0, 0,	0, 0, 0},
 			{1, 0, 0,	0, 0, 0,	0, 0, 0}
-			
 		};
 
 		setEntireBoard(sudokuBoard);
@@ -145,18 +143,37 @@ public class Board extends AbstractGameObject {
 		 * Kolory
 		 */
 		
-		shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1);
+		
 		
 		/*
 		 * Pola inicjalne, ktorych nie mozna zmienic
 		 */
 		
+		shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1);
 		shapeRenderer.begin(ShapeType.Filled);
 		
 		for(int i=0; i<Constants.GRID_SIZE; i++) {
 			for(int j=0; j<Constants.GRID_SIZE; j++) {
 				Cell cell = board[j][i];
 				if(cell.isInitial() == true) {
+					shapeRenderer.rect(cell.position.x, cell.position.y, cell.bounds.width, cell.bounds.height);
+				}
+			}
+		}
+		
+		shapeRenderer.end();
+
+		/*
+		 * Pola nad ktorymi jest kursor
+		 */
+		
+		shapeRenderer.setColor(Color.YELLOW);
+		shapeRenderer.begin(ShapeType.Filled);
+		
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				Cell cell = board[j][i];
+				if(cell.isHoveredOver() == true) {
 					shapeRenderer.rect(cell.position.x, cell.position.y, cell.bounds.width, cell.bounds.height);
 				}
 			}
@@ -231,6 +248,36 @@ public class Board extends AbstractGameObject {
 				
 			}
 		}
+	}
+	
+	public void checkIfComplete() {
+		int sum = 0;
+		
+		for(Cell[] tabC : board) {
+			for(Cell c : tabC) {
+				sum += c.getNumber();
+			}
+		}
+		
+		if(sum == 405) {
+			boardComplete = true;
+		}
+	}
+
+	public boolean isBoardComplete() {
+		return boardComplete;
+	}
+
+	public void setBoardComplete(boolean boardComplete) {
+		this.boardComplete = boardComplete;
+	}
+
+	public Cell[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(Cell[][] board) {
+		this.board = board;
 	}
 	
 }

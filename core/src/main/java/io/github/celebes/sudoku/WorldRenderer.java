@@ -43,6 +43,8 @@ public class WorldRenderer implements Disposable {
 		
 		// oddal troche
 		this.worldController.getCameraHelper().setZoom(1.1f);
+		
+		this.worldController.setWorldRenderer(this);
 	}
 	
 	public void render() {

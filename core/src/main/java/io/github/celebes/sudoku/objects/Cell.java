@@ -11,6 +11,8 @@ public class Cell extends AbstractGameObject implements Comparable<Cell> {
 	
 	private int number;
 	private boolean initial;
+	private boolean hoveredOver;
+	private boolean selected;
 	
 	public Cell() {
 		dimension.set(1.0f, 1.0f);
@@ -45,6 +47,22 @@ public class Cell extends AbstractGameObject implements Comparable<Cell> {
 
 	public void setInitial(boolean initial) {
 		this.initial = initial;
+	}
+	
+	public boolean isHoveredOver() {
+		return hoveredOver;
+	}
+
+	public void setHoveredOver(boolean hoveredOver) {
+		this.hoveredOver = hoveredOver;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override
