@@ -1,0 +1,103 @@
+
+gui.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+btn-cancel
+  rotate: false
+  xy: 2, 494
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-clear
+  rotate: false
+  xy: 404, 736
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-confirm
+  rotate: false
+  xy: 2, 412
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-continue
+  rotate: false
+  xy: 404, 654
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-easy
+  rotate: false
+  xy: 2, 330
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-edit
+  rotate: false
+  xy: 404, 572
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-hard
+  rotate: false
+  xy: 2, 248
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-medium
+  rotate: false
+  xy: 404, 490
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-play
+  rotate: false
+  xy: 2, 166
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-solve
+  rotate: false
+  xy: 404, 408
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-start
+  rotate: false
+  xy: 2, 84
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-stop
+  rotate: false
+  xy: 404, 326
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+btn-validate
+  rotate: false
+  xy: 2, 2
+  size: 400, 80
+  orig: 400, 80
+  offset: 0, 0
+  index: -1
+sudoku-logo
+  rotate: false
+  xy: 2, 576
+  size: 400, 240
+  orig: 400, 240
+  offset: 0, 0
+  index: -1

@@ -1,13 +1,11 @@
 package io.github.celebes.sudoku;
 
+import io.github.celebes.sudoku.objects.GuiButton;
 import io.github.celebes.sudoku.utils.Constants;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Disposable;
 
 public class WorldRenderer implements Disposable {
@@ -23,7 +21,7 @@ public class WorldRenderer implements Disposable {
 		this.worldController = worldController;
 		init();
 	}
-	
+
 	private void init() {
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
@@ -41,6 +39,9 @@ public class WorldRenderer implements Disposable {
 		// wysrodkuj kamere na planszy
 		this.worldController.getCameraHelper().setPosition(Constants.VIEWPORT_HEIGHT/2, Constants.VIEWPORT_HEIGHT/2);
 		
+		// przesun w lewo
+		this.worldController.getCameraHelper().setPosition(this.worldController.getCameraHelper().getPosition().x + 3.75f, this.worldController.getCameraHelper().getPosition().y);
+		
 		// oddal troche
 		this.worldController.getCameraHelper().setZoom(1.1f);
 		
@@ -51,6 +52,7 @@ public class WorldRenderer implements Disposable {
 		
 		renderShape();
 		renderSprite();
+		renderGui();
 
 	}
 
@@ -58,17 +60,22 @@ public class WorldRenderer implements Disposable {
 		worldController.getCameraHelper().applyTo(camera);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		worldController.board.render(shapeRenderer);
-		
-		
 	}
 	
 	private void renderSprite() {
+		worldController.getCameraHelper().applyTo(camera);
 		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		
 		worldController.board.render(batch);
+	}
+	
+	private void renderGui() {
+		worldController.getCameraHelper().applyTo(camera);
 		
-		batch.end();
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.combined);
+		
+		worldController.menu.render(shapeRenderer);
+		worldController.menu.render(batch);
 	}
 
 	public void resize(int width, int height) {

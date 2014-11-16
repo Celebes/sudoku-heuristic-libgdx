@@ -1,7 +1,10 @@
 package io.github.celebes.sudoku;
 
+import io.github.celebes.sudoku.enums.ButtonType;
+import io.github.celebes.sudoku.enums.MenuLevel;
 import io.github.celebes.sudoku.objects.Board;
-import io.github.celebes.sudoku.objects.Cell;
+import io.github.celebes.sudoku.objects.GuiButton;
+import io.github.celebes.sudoku.objects.Menu;
 import io.github.celebes.sudoku.utils.CameraHelper;
 import io.github.celebes.sudoku.utils.Constants;
 
@@ -23,6 +26,11 @@ public class WorldController extends InputAdapter {
 	private boolean sudokuSolved;
 	
 	public Board board;
+	public Menu menu;
+	
+	boolean buttonDelay = false;
+	float buttonWaitTime = 0.1f;
+	float elapsedButtonWaitTime = 0.0f;
 	
 	// Detekcja kolizji
 	private Rectangle r1 = new Rectangle();
@@ -37,6 +45,7 @@ public class WorldController extends InputAdapter {
 	
 	private void init() {
 		board = new Board();
+		menu = new Menu();
 	}
 	
 	public void update(float deltaTime) {
@@ -44,6 +53,15 @@ public class WorldController extends InputAdapter {
 		
 		if(!sudokuSolved) {
 			testCollisions();
+		}
+		
+		if(buttonDelay == true) {
+			elapsedButtonWaitTime += deltaTime;
+			
+			if(elapsedButtonWaitTime >= buttonWaitTime) {
+				elapsedButtonWaitTime = 0.0f;
+				buttonDelay = false;
+			}
 		}
 	}
 	
@@ -67,6 +85,22 @@ public class WorldController extends InputAdapter {
 					if(board.getBoard()[i][j].isHoveredOver() == true) {
 						board.getBoard()[i][j].setHoveredOver(false);
 					}
+				}
+			}
+		}
+		
+		GuiButton[] allButtons = menu.getAllButtons();
+		
+		for(GuiButton b : allButtons) {
+			r2.set(b.position.x, b.position.y, b.dimension.x, b.dimension.y);
+			
+			if(r1.overlaps(r2)) {
+				if(b.isHoveredOver() == false) {
+					b.setHoveredOver(true);
+				}
+			} else {
+				if(b.isHoveredOver() == true) {
+					b.setHoveredOver(false);
 				}
 			}
 		}
@@ -95,10 +129,6 @@ public class WorldController extends InputAdapter {
 		
 		if (Gdx.input.isKeyPressed(Keys.S)) {
 			moveCamera(0, -camMoveSpeed);
-		}
-		
-		if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) {
-			cameraHelper.setPosition(0, 0);
 		}
 		
 		// przyblizanie kamery
@@ -131,9 +161,110 @@ public class WorldController extends InputAdapter {
 				}
 			}
 		}
-
 	}
 	
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		guiButtonTouched();
+		return false;
+	}
+	
+	private void guiButtonTouched() {
+		for(GuiButton b : menu.getAllButtons()) {
+			if(b.isHoveredOver() == true && b.isVisible() == true && buttonDelay == false) {
+				
+				switch(menu.getMenuLevel()) {
+				
+				case MAIN_MENU:
+					
+					switch(b.getButtonType()) {
+					case EDIT:
+						menu.setMenuLevel(MenuLevel.EDIT);
+						Gdx.app.log(TAG, "EDIT CLICKED");
+						break;
+						
+					case PLAY:
+						Gdx.app.log(TAG, "PLAY CLICKED");
+						menu.setMenuLevel(MenuLevel.PLAY);
+						break;
+						
+					case SOLVE:
+						Gdx.app.log(TAG, "SOLVE CLICKED");
+						menu.setMenuLevel(MenuLevel.SOLVE);
+						break;
+					}
+					
+					break;
+					
+				case EDIT:
+					
+					switch(b.getButtonType()) {
+					case EASY:
+						break;
+						
+					case MEDIUM:
+						break;
+						
+					case HARD:
+						break;
+						
+					case CLEAR_EDIT:
+						break;
+						
+					case CONFIRM:
+						break;
+						
+					case CANCEL_EDIT:
+						Gdx.app.log(TAG, "CANCEL_EDIT CLICKED");
+						menu.setMenuLevel(MenuLevel.MAIN_MENU);
+						break;
+					}
+					
+					break;
+					
+				case PLAY:
+					
+					switch(b.getButtonType()) {
+					case VALIDATE:
+						break;
+						
+					case CANCEL_PLAY:
+						Gdx.app.log(TAG, "CANCEL_PLAY CLICKED");
+						menu.setMenuLevel(MenuLevel.MAIN_MENU);
+						break;
+					}
+					
+					break;
+					
+				case SOLVE:
+					
+					switch(b.getButtonType()) {
+					case START:
+						break;
+						
+					case STOP:
+						break;
+						
+					case CONTINUE:
+						break;
+						
+					case CLEAR_SOLVE:
+						break;
+						
+					case CANCEL_SOLVE:
+						Gdx.app.log(TAG, "CANCEL_SOLVE CLICKED");
+						menu.setMenuLevel(MenuLevel.MAIN_MENU);
+						break;
+					}
+					
+					break;
+				}
+				
+				buttonDelay = true;
+			}
+		}
+	}
+
 	private void moveCamera(float x, float y) {
 		x += cameraHelper.getPosition().x;
 		y += cameraHelper.getPosition().y;

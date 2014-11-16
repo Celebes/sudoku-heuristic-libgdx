@@ -18,6 +18,7 @@ public class DesktopLauncher {
 			settings.maxWidth = 1024;
 			settings.maxHeight = 1024;
 			TexturePacker2.process(settings, "assets-raw/numbers", "../android/assets/images", "numbers.pack");
+			TexturePacker2.process(settings, "assets-raw/gui", "../android/assets/images", "gui.pack");
 		}
 		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

@@ -130,18 +130,11 @@ public class Board extends AbstractGameObject {
 	}
 
 	public void render(ShapeRenderer shapeRenderer) {
+		renderColors(shapeRenderer);
 		renderGrid(shapeRenderer);
 	}
 	
-	public void render(SpriteBatch batch) {
-		renderNumbers(batch);
-	}
-
-	private void renderGrid(ShapeRenderer shapeRenderer) {
-		
-		/*
-		 * Kolory
-		 */
+	private void renderColors(ShapeRenderer shapeRenderer) {
 		
 		/*
 		 * Pola inicjalne, ktorych nie mozna zmienic
@@ -196,10 +189,15 @@ public class Board extends AbstractGameObject {
 		}
 		
 		shapeRenderer.end();
+	}
 
-		/*
-		 * Linie
-		 */
+	public void render(SpriteBatch batch) {
+		batch.begin();
+		renderNumbers(batch);
+		batch.end();
+	}
+
+	private void renderGrid(ShapeRenderer shapeRenderer) {
 		
 		shapeRenderer.setColor(0, 0, 0, 1);
 		

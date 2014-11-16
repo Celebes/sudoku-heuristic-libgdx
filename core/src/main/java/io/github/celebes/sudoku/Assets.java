@@ -17,6 +17,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	
 	// pogrupowane logicznie textury
 	public AssetNumbers numbers;
+	public AssetGui gui;
 	
 	// prywatny konstruktor oznacza, ze klasa jest Singletonem - nie mozna jej inicjalizowac z innych klas
 	private Assets() {}
@@ -27,6 +28,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		// wczytaj atlasy textur
 		assetManager.load(Constants.TEXTURE_ATLAS_NUMBERS, TextureAtlas.class);
+		assetManager.load(Constants.TEXTURE_ATLAS_GUI, TextureAtlas.class);
 		
 		// zacznij wczytywac rzeczy i poczekaj do konca
 		assetManager.finishLoading();
@@ -39,9 +41,45 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		// zaladuj atlasy textur
 		TextureAtlas atlasNumbers = assetManager.get(Constants.TEXTURE_ATLAS_NUMBERS);
+		TextureAtlas atlasGUI = assetManager.get(Constants.TEXTURE_ATLAS_GUI);
 		
 		// zaladuj textury
 		numbers = new AssetNumbers(atlasNumbers);
+		gui = new AssetGui(atlasGUI);
+	}
+	
+	public class AssetGui {
+		public final AtlasRegion logo;
+		public final AtlasRegion btnCancel;
+		public final AtlasRegion btnClear;
+		public final AtlasRegion btnConfirm;
+		public final AtlasRegion btnContinue;
+		public final AtlasRegion btnEasy;
+		public final AtlasRegion btnEdit;
+		public final AtlasRegion btnHard;
+		public final AtlasRegion btnMedium;
+		public final AtlasRegion btnPlay;
+		public final AtlasRegion btnSolve;
+		public final AtlasRegion btnStart;
+		public final AtlasRegion btnStop;
+		public final AtlasRegion btnValidate;
+		
+		public AssetGui(TextureAtlas atlas) {
+			logo = atlas.findRegion("sudoku-logo");
+			btnCancel = atlas.findRegion("btn-cancel");
+			btnClear = atlas.findRegion("btn-clear");
+			btnConfirm = atlas.findRegion("btn-confirm");
+			btnContinue = atlas.findRegion("btn-continue");
+			btnEasy = atlas.findRegion("btn-easy");
+			btnEdit = atlas.findRegion("btn-edit");
+			btnHard = atlas.findRegion("btn-hard");
+			btnMedium = atlas.findRegion("btn-medium");
+			btnPlay = atlas.findRegion("btn-play");
+			btnSolve = atlas.findRegion("btn-solve");
+			btnStart = atlas.findRegion("btn-start");
+			btnStop = atlas.findRegion("btn-stop");
+			btnValidate = atlas.findRegion("btn-validate");
+		}
 	}
 	
 	public class AssetNumbers {
