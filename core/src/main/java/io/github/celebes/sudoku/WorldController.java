@@ -73,17 +73,19 @@ public class WorldController extends InputAdapter {
 		
 		r1.set(touchInGame.x, touchInGame.y, 0, 0);
 		
-		for(int i=0; i<Constants.GRID_SIZE; i++) {
-			for(int j=0; j<Constants.GRID_SIZE; j++) {
-				r2.set(board.getBoard()[i][j].position.x, board.getBoard()[i][j].position.y, board.getBoard()[i][j].dimension.x, board.getBoard()[i][j].dimension.y);
-				
-				if(r1.overlaps(r2)) {
-					if(board.getBoard()[i][j].isHoveredOver() == false) {
-						board.getBoard()[i][j].setHoveredOver(true);
-					}
-				} else {
-					if(board.getBoard()[i][j].isHoveredOver() == true) {
-						board.getBoard()[i][j].setHoveredOver(false);
+		if(menu.getMenuLevel() == MenuLevel.EDIT || menu.getMenuLevel() == MenuLevel.PLAY) {
+			for(int i=0; i<Constants.GRID_SIZE; i++) {
+				for(int j=0; j<Constants.GRID_SIZE; j++) {
+					r2.set(board.getBoard()[i][j].position.x, board.getBoard()[i][j].position.y, board.getBoard()[i][j].dimension.x, board.getBoard()[i][j].dimension.y);
+					
+					if(r1.overlaps(r2)) {
+						if(board.getBoard()[i][j].isHoveredOver() == false) {
+							board.getBoard()[i][j].setHoveredOver(true);
+						}
+					} else {
+						if(board.getBoard()[i][j].isHoveredOver() == true) {
+							board.getBoard()[i][j].setHoveredOver(false);
+						}
 					}
 				}
 			}
@@ -156,7 +158,10 @@ public class WorldController extends InputAdapter {
 			for(int i=0; i<Constants.GRID_SIZE; i++) {
 				for(int j=0; j<Constants.GRID_SIZE; j++) {
 					if(board.getBoard()[i][j].isHoveredOver() == true) {
-						board.getBoard()[i][j].setSelected(true);
+						if(menu.getMenuLevel() == MenuLevel.EDIT || (menu.getMenuLevel() == MenuLevel.PLAY && board.getBoard()[i][j].isInitial() == false)) {
+							//board.getBoard()[i][j].setSelected(true);
+							board.setSelectedCell(board.getBoard()[i][j]);
+						}
 					}
 				}
 			}
@@ -180,6 +185,7 @@ public class WorldController extends InputAdapter {
 					switch(b.getButtonType()) {
 					case EDIT:
 						menu.setMenuLevel(MenuLevel.EDIT);
+						board.saveState();
 						Gdx.app.log(TAG, "EDIT CLICKED");
 						break;
 						
@@ -209,14 +215,19 @@ public class WorldController extends InputAdapter {
 						break;
 						
 					case CLEAR_EDIT:
+						board.clearBoard(true);
+						board.setSelectedCell(null);
 						break;
 						
 					case CONFIRM:
+						menu.setMenuLevel(MenuLevel.MAIN_MENU);
+						board.setSelectedCell(null);
 						break;
 						
 					case CANCEL_EDIT:
-						Gdx.app.log(TAG, "CANCEL_EDIT CLICKED");
 						menu.setMenuLevel(MenuLevel.MAIN_MENU);
+						board.loadState();
+						board.setSelectedCell(null);
 						break;
 					}
 					
@@ -229,8 +240,8 @@ public class WorldController extends InputAdapter {
 						break;
 						
 					case CANCEL_PLAY:
-						Gdx.app.log(TAG, "CANCEL_PLAY CLICKED");
 						menu.setMenuLevel(MenuLevel.MAIN_MENU);
+						board.setSelectedCell(null);
 						break;
 					}
 					
@@ -249,10 +260,10 @@ public class WorldController extends InputAdapter {
 						break;
 						
 					case CLEAR_SOLVE:
+						board.clearBoard(false);
 						break;
 						
 					case CANCEL_SOLVE:
-						Gdx.app.log(TAG, "CANCEL_SOLVE CLICKED");
 						menu.setMenuLevel(MenuLevel.MAIN_MENU);
 						break;
 					}
@@ -283,13 +294,7 @@ public class WorldController extends InputAdapter {
 		}
 		
 		if(keycode == Keys.ENTER || keycode == Keys.ESCAPE) {
-			for(int i=0; i<Constants.GRID_SIZE; i++) {
-				for(int j=0; j<Constants.GRID_SIZE; j++) {
-					if(board.getBoard()[i][j].isSelected() == true) {
-						board.getBoard()[i][j].setSelected(false);
-					}
-				}
-			}
+			board.setSelectedCell(null);
 		}
 		
 		if(keycode == Keys.NUM_0 || keycode == Keys.NUMPAD_0 || keycode == Keys.BACKSPACE) {
@@ -318,14 +323,16 @@ public class WorldController extends InputAdapter {
 	}
 	
 	private void numberKeyDown(int numberKey) {
-		for(int i=0; i<Constants.GRID_SIZE; i++) {
-			for(int j=0; j<Constants.GRID_SIZE; j++) {
-				if(board.getBoard()[i][j].isSelected() == true) {
-					board.getBoard()[i][j].setNumber(numberKey);
-					board.getBoard()[i][j].setSelected(false);
-					board.getBoard()[i][j].setInitial(true);
-				}
+		if(board.getSelectedCell() != null) {
+			board.getSelectedCell().setNumber(numberKey);
+			
+			if(numberKey == 0 || menu.getMenuLevel() != MenuLevel.EDIT) {
+				board.getSelectedCell().setInitial(false);
+			} else {
+				board.getSelectedCell().setInitial(true);
 			}
+			
+			board.setSelectedCell(null);
 		}
 	}
 

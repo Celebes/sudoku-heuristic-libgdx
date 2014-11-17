@@ -14,6 +14,7 @@ public class Board extends AbstractGameObject {
 	public static final String TAG = Board.class.getName();
 	
 	private Cell[][] board;
+	private Cell selectedCell;
 	
 	private boolean boardComplete;
 	
@@ -49,6 +50,20 @@ public class Board extends AbstractGameObject {
 			for(int j=0; j<Constants.GRID_SIZE; j++) {
 				boolean initial = (numbers[i][j] != 0);
 				setBoardNumber(j, Constants.GRID_SIZE-1-i, numbers[i][j], initial);
+			}
+		}
+	}
+	
+	public void clearBoard(boolean cleanInitial) {
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				if(cleanInitial == true) {
+					setBoardNumber(i, j, 0, false);
+				} else {
+					if(board[i][j].isInitial() == false) {
+						setBoardNumber(i, j, 0, false);
+					}
+				}
 			}
 		}
 	}
@@ -179,13 +194,17 @@ public class Board extends AbstractGameObject {
 		shapeRenderer.setColor(Color.GREEN);
 		shapeRenderer.begin(ShapeType.Filled);
 		
-		for(int i=0; i<Constants.GRID_SIZE; i++) {
+		/*for(int i=0; i<Constants.GRID_SIZE; i++) {
 			for(int j=0; j<Constants.GRID_SIZE; j++) {
 				Cell cell = board[j][i];
 				if(cell.isSelected() == true) {
 					shapeRenderer.rect(cell.position.x, cell.position.y, cell.bounds.width, cell.bounds.height);
 				}
 			}
+		}*/
+		
+		if(selectedCell != null) {
+			shapeRenderer.rect(selectedCell.position.x, selectedCell.position.y, selectedCell.bounds.width, selectedCell.bounds.height);
 		}
 		
 		shapeRenderer.end();
@@ -195,6 +214,28 @@ public class Board extends AbstractGameObject {
 		batch.begin();
 		renderNumbers(batch);
 		batch.end();
+	}
+	
+	public void saveState() {
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				board[i][j].setPrevNumber(board[i][j].getNumber());
+			}
+		}
+	}
+	
+	public void loadState() {
+		for(int i=0; i<Constants.GRID_SIZE; i++) {
+			for(int j=0; j<Constants.GRID_SIZE; j++) {
+				board[i][j].setNumber(board[i][j].getPrevNumber());
+				
+				if(board[i][j].getNumber() == 0) {
+					board[i][j].setInitial(false);
+				} else {
+					board[i][j].setInitial(true);
+				}
+			}
+		}
 	}
 
 	private void renderGrid(ShapeRenderer shapeRenderer) {
@@ -292,6 +333,14 @@ public class Board extends AbstractGameObject {
 
 	public void setBoard(Cell[][] board) {
 		this.board = board;
+	}
+
+	public Cell getSelectedCell() {
+		return selectedCell;
+	}
+
+	public void setSelectedCell(Cell selectedCell) {
+		this.selectedCell = selectedCell;
 	}
 	
 }

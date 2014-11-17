@@ -14,6 +14,8 @@ public class Cell extends AbstractGameObject implements Comparable<Cell> {
 	private boolean hoveredOver;
 	private boolean selected;
 	
+	private int prevNumber;
+	
 	public Cell() {
 		dimension.set(1.0f, 1.0f);
 		origin.set(dimension.x / 2, dimension.y / 2);
@@ -63,6 +65,14 @@ public class Cell extends AbstractGameObject implements Comparable<Cell> {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	
+	public int getPrevNumber() {
+		return prevNumber;
+	}
+
+	public void setPrevNumber(int prevNumber) {
+		this.prevNumber = prevNumber;
 	}
 
 	@Override
