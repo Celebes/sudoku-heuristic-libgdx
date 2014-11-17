@@ -46,6 +46,7 @@ public class Board extends AbstractGameObject {
 	}
 	
 	public void setEntireBoard(int[][] numbers) {
+		clearBoard(true);
 		for(int i=0; i<Constants.GRID_SIZE; i++) {
 			for(int j=0; j<Constants.GRID_SIZE; j++) {
 				boolean initial = (numbers[i][j] != 0);
@@ -66,6 +67,60 @@ public class Board extends AbstractGameObject {
 				}
 			}
 		}
+	}
+	
+	public void initEasyBoard() {
+		int[][] sudokuBoard = {
+			{9, 0, 0,	6, 0, 0,	3, 0, 1},
+			{0, 5, 0,	3, 0, 0,	4, 6, 0},
+			{0, 0, 0,	0, 0, 5,	9, 0, 2},
+			
+			{5, 0, 4,	0, 8, 0,	0, 0, 0},
+			{3, 0, 0,	7, 0, 4,	0, 0, 5},
+			{0, 0, 0,	0, 3, 0,	2, 0, 9},
+			
+			{4, 0, 9,	8, 0, 0,	0, 0, 0},
+			{0, 3, 2,	0, 0, 7,	0, 1, 0},
+			{7, 0, 5,	0, 0, 3,	0, 0, 4}
+		};
+
+		setEntireBoard(sudokuBoard);
+	}
+	
+	public void initMediumBoard() {
+		int[][] sudokuBoard = {
+			{0, 4, 0,	0, 7, 0,	0, 0, 0},
+			{0, 0, 3,	2, 0, 6,	0, 0, 7},
+			{9, 0, 0,	0, 3, 0,	1, 0, 0},
+			
+			{1, 0, 0,	0, 4, 0,	0, 8, 5},
+			{0, 8, 0,	3, 0, 5,	0, 7, 0},
+			{7, 5, 0,	0, 2, 0,	0, 0, 1},
+			
+			{0, 0, 4,	0, 8, 0,	0, 0, 9},
+			{2, 0, 0,	4, 0, 7,	3, 0, 0},
+			{0, 0, 0,	0, 6, 0,	0, 5, 0}
+		};
+
+		setEntireBoard(sudokuBoard);
+	}
+	
+	public void initHardBoard() {
+		int[][] sudokuBoard = {
+			{0, 1, 0,	6, 0, 0,	3, 0, 0},
+			{5, 0, 0,	0, 3, 0,	0, 1, 8},
+			{0, 2, 0,	5, 0, 0,	0, 0, 0},
+			
+			{3, 0, 0,	0, 0, 0,	0, 2, 0},
+			{0, 0, 0,	7, 0, 4,	0, 0, 0},
+			{0, 9, 0,	0, 0, 0,	0, 0, 7},
+			
+			{0, 0, 0,	0, 0, 6,	0, 7, 0},
+			{1, 5, 0,	0, 9, 0,	0, 0, 2},
+			{0, 0, 6,	0, 0, 3,	0, 5, 0}
+		};
+
+		setEntireBoard(sudokuBoard);
 	}
 	
 	private void initTestBoard() {

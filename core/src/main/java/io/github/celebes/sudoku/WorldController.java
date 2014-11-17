@@ -186,16 +186,13 @@ public class WorldController extends InputAdapter {
 					case EDIT:
 						menu.setMenuLevel(MenuLevel.EDIT);
 						board.saveState();
-						Gdx.app.log(TAG, "EDIT CLICKED");
 						break;
 						
 					case PLAY:
-						Gdx.app.log(TAG, "PLAY CLICKED");
 						menu.setMenuLevel(MenuLevel.PLAY);
 						break;
 						
 					case SOLVE:
-						Gdx.app.log(TAG, "SOLVE CLICKED");
 						menu.setMenuLevel(MenuLevel.SOLVE);
 						break;
 					}
@@ -206,12 +203,15 @@ public class WorldController extends InputAdapter {
 					
 					switch(b.getButtonType()) {
 					case EASY:
+						board.initEasyBoard();
 						break;
 						
 					case MEDIUM:
+						board.initMediumBoard();
 						break;
 						
 					case HARD:
+						board.initHardBoard();
 						break;
 						
 					case CLEAR_EDIT:
@@ -237,6 +237,7 @@ public class WorldController extends InputAdapter {
 					
 					switch(b.getButtonType()) {
 					case VALIDATE:
+						Gdx.app.log(TAG, "VALIDATION RESULT = " + (board.validateBoard() ? "OK" : "BAD"));
 						break;
 						
 					case CANCEL_PLAY:
