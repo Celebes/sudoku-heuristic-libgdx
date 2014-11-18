@@ -24,7 +24,8 @@ public class Board extends AbstractGameObject {
 		bounds.set(0, 0, dimension.x, dimension.y);
 		
 		initBoard();
-		initTestNumbers();
+		initEasyBoard();
+		//initTestNumbers();
 		//initTestBoard();
 	}
 	
@@ -125,7 +126,7 @@ public class Board extends AbstractGameObject {
 	
 	private void initTestBoard() {
 		int[][] sudokuBoard = {
-			{2, 4, 8,	3, 9, 5,	7, 1, 6},
+			{0, 4, 8,	3, 9, 5,	7, 1, 6},	// zamiast 0 ma byc 2
 			{5, 7, 1,	6, 2, 8,	3, 4, 9},
 			{9, 3, 6,	7, 4, 1,	5, 8, 2},
 			
@@ -375,6 +376,7 @@ public class Board extends AbstractGameObject {
 	}
 
 	public boolean isBoardComplete() {
+		checkIfComplete();
 		return boardComplete;
 	}
 

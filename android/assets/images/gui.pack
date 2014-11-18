@@ -5,86 +5,126 @@ filter: Nearest,Nearest
 repeat: none
 btn-cancel
   rotate: false
-  xy: 2, 494
+  xy: 404, 658
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-clear
   rotate: false
-  xy: 404, 736
+  xy: 2, 174
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-confirm
   rotate: false
-  xy: 2, 412
+  xy: 404, 576
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-continue
   rotate: false
-  xy: 404, 654
+  xy: 2, 92
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-easy
   rotate: false
-  xy: 2, 330
+  xy: 404, 494
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-edit
   rotate: false
-  xy: 404, 572
+  xy: 2, 10
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-hard
   rotate: false
-  xy: 2, 248
+  xy: 404, 412
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-medium
   rotate: false
-  xy: 404, 490
+  xy: 404, 330
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-play
   rotate: false
-  xy: 2, 166
+  xy: 404, 248
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-solve
   rotate: false
-  xy: 404, 408
+  xy: 404, 166
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-start
   rotate: false
-  xy: 2, 84
+  xy: 404, 84
   size: 400, 80
   orig: 400, 80
   offset: 0, 0
   index: -1
 btn-stop
   rotate: false
-  xy: 404, 326
+  xy: 404, 2
   size: 400, 80
   orig: 400, 80
+  offset: 0, 0
+  index: -1
+popup-correct-board
+  rotate: false
+  xy: 2, 740
+  size: 400, 240
+  orig: 400, 240
+  offset: 0, 0
+  index: -1
+popup-invalid-board
+  rotate: false
+  xy: 2, 498
+  size: 400, 240
+  orig: 400, 240
+  offset: 0, 0
+  index: -1
+popup-sudoku-solved
+  rotate: false
+  xy: 404, 740
+  size: 400, 240
+  orig: 400, 240
+  offset: 0, 0
+  index: -1
+sudoku-logo
+  rotate: false
+  xy: 2, 256
+  size: 400, 240
+  orig: 400, 240
+  offset: 0, 0
+  index: -1
+
+gui2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+btn-ok
+  rotate: false
+  xy: 404, 2
+  size: 320, 80
+  orig: 320, 80
   offset: 0, 0
   index: -1
 btn-validate
@@ -92,12 +132,5 @@ btn-validate
   xy: 2, 2
   size: 400, 80
   orig: 400, 80
-  offset: 0, 0
-  index: -1
-sudoku-logo
-  rotate: false
-  xy: 2, 576
-  size: 400, 240
-  orig: 400, 240
   offset: 0, 0
   index: -1

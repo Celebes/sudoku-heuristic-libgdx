@@ -53,6 +53,7 @@ public class WorldRenderer implements Disposable {
 		renderShape();
 		renderSprite();
 		renderGui();
+		renderPopup();
 
 	}
 
@@ -76,6 +77,16 @@ public class WorldRenderer implements Disposable {
 		
 		worldController.menu.render(shapeRenderer);
 		worldController.menu.render(batch);
+	}
+	
+	private void renderPopup() {
+		worldController.getCameraHelper().applyTo(camera);
+		
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.combined);
+		
+		worldController.popup.render(shapeRenderer);
+		worldController.popup.render(batch);
 	}
 
 	public void resize(int width, int height) {

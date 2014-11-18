@@ -50,6 +50,12 @@ public class Assets implements Disposable, AssetErrorListener {
 	
 	public class AssetGui {
 		public final AtlasRegion logo;
+		
+		public final AtlasRegion popupInvalidBoard;
+		public final AtlasRegion popupCorrectBoard;
+		public final AtlasRegion popupSudokuSolved;
+		
+		public final AtlasRegion btnOk;
 		public final AtlasRegion btnCancel;
 		public final AtlasRegion btnClear;
 		public final AtlasRegion btnConfirm;
@@ -66,6 +72,12 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		public AssetGui(TextureAtlas atlas) {
 			logo = atlas.findRegion("sudoku-logo");
+			
+			popupInvalidBoard = atlas.findRegion("popup-invalid-board");
+			popupCorrectBoard = atlas.findRegion("popup-correct-board");
+			popupSudokuSolved = atlas.findRegion("popup-sudoku-solved");
+			
+			btnOk = atlas.findRegion("btn-ok");
 			btnCancel = atlas.findRegion("btn-cancel");
 			btnClear = atlas.findRegion("btn-clear");
 			btnConfirm = atlas.findRegion("btn-confirm");

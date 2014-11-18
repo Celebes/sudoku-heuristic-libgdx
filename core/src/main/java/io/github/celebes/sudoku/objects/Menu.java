@@ -160,6 +160,7 @@ public class Menu {
 	}
 	
 	public void render(ShapeRenderer shapeRenderer) {
+
 		shapeRenderer.setColor(Color.YELLOW);
 		shapeRenderer.begin(ShapeType.Filled);
 		
@@ -170,6 +171,7 @@ public class Menu {
 		}
 		
 		shapeRenderer.end();
+
 	}
 	
 	public void render(SpriteBatch batch) {
@@ -216,6 +218,7 @@ public class Menu {
 	
 	private void renderButton(GuiButton b, SpriteBatch batch) {
 		TextureRegion reg = b.getReg();
+		reg.getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		batch.draw(reg.getTexture(), b.position.x, b.position.y, 0.0f,
 				0.0f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f,
