@@ -4,12 +4,19 @@ import io.github.celebes.sudoku.history.HistoryTree;
 import io.github.celebes.sudoku.history.Move;
 import io.github.celebes.sudoku.utils.Constants;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -33,6 +40,13 @@ public class Board extends AbstractGameObject {
 	// history tree
 	private HistoryTree historyTree;
 	
+	// zapis do pliku
+	FileHandle handle;
+	
+	// mierzenie czasu
+	long timeBefore;
+	long timeAfter;
+	
 	private int counter;
 	
 	public Board() {
@@ -41,7 +55,6 @@ public class Board extends AbstractGameObject {
 		bounds.set(0, 0, dimension.x, dimension.y);
 		
 		initBoard();
-		initEasyBoard();
 	}
 	
 	public void update(float deltaTime) {
@@ -50,6 +63,10 @@ public class Board extends AbstractGameObject {
 			
 			if(timePassed >= moveDelay) {
 				timePassed = 0.0f;
+				
+				if(firstMove == true) {
+					timeBefore = System.currentTimeMillis();
+				}
 
 				// przypisz komorkom mozliwe do wstawienia cyfry
 				setPossibleNumbersForEntireBoard();
@@ -61,10 +78,34 @@ public class Board extends AbstractGameObject {
 				pickBestMove();
 				
 				if(isBoardComplete() == true) {
-					System.out.println("board complete in " + counter + " moves");
+					timeAfter = System.currentTimeMillis();
+					long elapsedTime = timeAfter - timeBefore;
+					
+					createResultsFile();
+					
+					handle.writeString("Board completed in " + counter + " moves.\n", true);
+					handle.writeString("Time elapsed: " + String.format("%d minutes, %d seconds", TimeUnit.MILLISECONDS.toMinutes(elapsedTime), TimeUnit.MILLISECONDS.toSeconds(elapsedTime) - 
+						    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsedTime))) + "\n", true);
+					handle.writeString(historyTree.toString(), true);
+					
+					
+					Runtime runtime = Runtime.getRuntime();
+					try {
+						Process process = runtime.exec("C:\\Program Files (x86)\\Notepad++\\notepad++.exe D:\\results\\" + handle.name());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
+	}
+	
+	private void createResultsFile() {
+		DateFormat dateFormat = new SimpleDateFormat("HH_mm_ss_-_dd_MM_yyyy");
+		Date date = new Date();
+
+		String nazwaPliku = dateFormat.format(date);
+		handle = Gdx.files.absolute("/results/" + nazwaPliku + ".txt");
 	}
 	
 	private double calculateMaxPossibility() {

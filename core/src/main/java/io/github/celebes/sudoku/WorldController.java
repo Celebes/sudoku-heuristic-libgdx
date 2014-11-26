@@ -12,6 +12,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -79,7 +80,7 @@ public class WorldController extends InputAdapter {
 			}
 		}
 	}
-	
+
 	private void testCollisions() {
 		// pozycja kursora
 		Vector3 touchScreen = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -320,6 +321,7 @@ public class WorldController extends InputAdapter {
 						
 						switch(b.getButtonType()) {
 						case START:
+							showedPopupOnComplete = false;
 							menu.setSolve(true);
 							menu.setStartedBefore(true);
 							break;
@@ -337,7 +339,6 @@ public class WorldController extends InputAdapter {
 							menu.setSolve(false);
 							menu.setStartedBefore(false);
 							menu.setMenuLevel(MenuLevel.SOLVE);
-							showedPopupOnComplete = false;
 							break;
 							
 						case CANCEL_SOLVE:
