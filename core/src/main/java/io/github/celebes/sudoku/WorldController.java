@@ -37,6 +37,8 @@ public class WorldController extends InputAdapter {
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
 	
+	private boolean showedPopupOnComplete = false;
+	
 	public WorldController(Game game) {
 		this.game = game;
 		cameraHelper = new CameraHelper();
@@ -54,6 +56,19 @@ public class WorldController extends InputAdapter {
 		handleDebugInput(deltaTime);
 		
 		testCollisions();
+		
+		if(menu.isSolve() == true) {
+			board.update(deltaTime);
+			
+			if(board.isBoardComplete() == true) {
+				if(board.validateBoard() == true) {
+					if(showedPopupOnComplete == false) {
+						showedPopupOnComplete = true;
+						popup.setPopupCorrectBoardVisible(true);
+					}
+				}
+			}
+		}
 		
 		if(buttonDelay == true) {
 			elapsedButtonWaitTime += deltaTime;
@@ -305,21 +320,31 @@ public class WorldController extends InputAdapter {
 						
 						switch(b.getButtonType()) {
 						case START:
+							menu.setSolve(true);
+							menu.setStartedBefore(true);
 							break;
 							
 						case STOP:
+							menu.setSolve(false);
 							break;
 							
 						case CONTINUE:
+							menu.setSolve(true);
 							break;
 							
 						case CLEAR_SOLVE:
 							board.clearBoard(false);
+							menu.setSolve(false);
+							menu.setStartedBefore(false);
+							menu.setMenuLevel(MenuLevel.SOLVE);
+							showedPopupOnComplete = false;
 							break;
 							
 						case CANCEL_SOLVE:
-							menu.setMenuLevel(MenuLevel.MAIN_MENU);
+							menu.setSolve(false);
+							menu.setStartedBefore(false);
 							board.clearBoard(false);
+							menu.setMenuLevel(MenuLevel.MAIN_MENU);
 							break;
 						}
 						
@@ -347,6 +372,10 @@ public class WorldController extends InputAdapter {
 		
 		if(keycode == Keys.V) {
 			Gdx.app.log(TAG, "VALIDATION RESULT = " + (board.validateBoard() ? "OK" : "BAD"));
+		}
+		
+		if(keycode == Keys.H) {
+			Gdx.app.log(TAG, board.getHistoryTree().toString());
 		}
 		
 		if(keycode == Keys.ENTER || keycode == Keys.ESCAPE) {

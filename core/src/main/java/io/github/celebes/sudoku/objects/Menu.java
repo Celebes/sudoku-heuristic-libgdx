@@ -36,6 +36,9 @@ public class Menu {
 	private GuiButton[] allButtons;
 	
 	private MenuLevel menuLevel;
+	
+	private boolean solve;
+	private boolean startedBefore;
 
 	public Menu() {		
 		initGui();
@@ -207,7 +210,16 @@ public class Menu {
 			break;
 			
 		case SOLVE:
-			renderButton(btnStart, batch);
+			if(solve == false) {
+				if(startedBefore == false) {
+					renderButton(btnStart, batch);
+				} else {
+					renderButton(btnContinue, batch);
+				}
+			} else {
+				renderButton(btnStop, batch);
+			}
+			
 			renderButton(btnClearSolve, batch);
 			renderButton(btnCancelSolve, batch);
 			break;
@@ -269,6 +281,38 @@ public class Menu {
 			break;
 		}
 		
+	}
+
+	public boolean isSolve() {
+		return solve;
+	}
+
+	public void setSolve(boolean solve) {
+		this.solve = solve;
+		
+		if(solve == true) {
+			if(startedBefore == true) {
+				btnContinue.setVisible(false);
+			} else {
+				btnStart.setVisible(false);
+			}
+			btnStop.setVisible(true);
+		} else {
+			btnStop.setVisible(false);
+			if(startedBefore == false) {
+				btnStart.setVisible(true);
+			} else {
+				btnContinue.setVisible(true);
+			}
+		}
+	}
+
+	public boolean isStartedBefore() {
+		return startedBefore;
+	}
+
+	public void setStartedBefore(boolean startedBefore) {
+		this.startedBefore = startedBefore;
 	}
 	
 }
