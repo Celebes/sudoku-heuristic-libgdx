@@ -107,5 +107,56 @@ public class HistoryTree {
 			return "";
 		}
 	}
+
+	public String toTGF() {
+		String result = recursiveNodesTGF(root) + "#\n" + recursiveEdgesTGF(root);
+		return result;
+	}
+	
+	private String recursiveEdgesTGF(DefaultMutableTreeNode node) {
+		Enumeration<DefaultMutableTreeNode> e = node.children();
+		
+		String edges = "";
+		
+		String parent = "";
+		
+		if(node.isRoot()) {
+			parent += "1 ";
+		} else {
+			parent += (((Move)node.getUserObject()).getNumber() + 1) + " ";
+		}
+		
+		if(e.hasMoreElements()) {
+			while(e.hasMoreElements()) {
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode) e.nextElement();
+				edges += parent + (((Move)child.getUserObject()).getNumber() + 1) + "\n";
+				edges += recursiveEdgesTGF(child);
+			}
+			
+			return edges;
+		} else {
+			return "";
+		}
+	}
+
+	private String recursiveNodesTGF(DefaultMutableTreeNode node) {
+		Enumeration<DefaultMutableTreeNode> e = node.children();
+		
+		String nodes = "";
+		
+		if(node.isRoot()) {
+			nodes += "1 root\n";
+		}
+		
+		if(e.hasMoreElements()) {
+			while(e.hasMoreElements()) {
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode) e.nextElement();
+				nodes += (((Move)child.getUserObject()).getNumber() + 1) + " " + ((Move)child.getUserObject()).toString() + "\n" + recursiveNodesTGF(child);
+			}
+			return nodes;
+		} else {
+			return "";
+		}
+	}
 	
 }

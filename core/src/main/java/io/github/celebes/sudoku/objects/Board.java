@@ -42,6 +42,7 @@ public class Board extends AbstractGameObject {
 	
 	// zapis do pliku
 	FileHandle handle;
+	FileHandle tgfGraph;
 	
 	// mierzenie czasu
 	long timeBefore;
@@ -81,31 +82,32 @@ public class Board extends AbstractGameObject {
 					timeAfter = System.currentTimeMillis();
 					long elapsedTime = timeAfter - timeBefore;
 					
-					createResultsFile();
+					DateFormat dateFormat = new SimpleDateFormat("HH_mm_ss_-_dd_MM_yyyy");
+					Date date = new Date();
+
+					String nazwaPliku = dateFormat.format(date);
+					
+					handle = Gdx.files.absolute("/results/" + nazwaPliku + ".txt");
+					tgfGraph = Gdx.files.absolute("/results/" + nazwaPliku + ".tgf");
 					
 					handle.writeString("Board completed in " + counter + " moves.\n", true);
 					handle.writeString("Time elapsed: " + String.format("%d minutes, %d seconds", TimeUnit.MILLISECONDS.toMinutes(elapsedTime), TimeUnit.MILLISECONDS.toSeconds(elapsedTime) - 
 						    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsedTime))) + "\n", true);
 					handle.writeString(historyTree.toString(), true);
 					
+					tgfGraph.writeString(historyTree.toTGF(), true);
 					
 					Runtime runtime = Runtime.getRuntime();
 					try {
-						Process process = runtime.exec("C:\\Program Files (x86)\\Notepad++\\notepad++.exe D:\\results\\" + handle.name());
+						runtime.exec("C:\\Program Files (x86)\\Notepad++\\notepad++.exe D:\\results\\" + handle.name());
+						runtime.exec("C:\\Program Files (x86)\\yWorks\\yEd\\yEd.exe D:\\results\\" + tgfGraph.name());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					
 				}
 			}
 		}
-	}
-	
-	private void createResultsFile() {
-		DateFormat dateFormat = new SimpleDateFormat("HH_mm_ss_-_dd_MM_yyyy");
-		Date date = new Date();
-
-		String nazwaPliku = dateFormat.format(date);
-		handle = Gdx.files.absolute("/results/" + nazwaPliku + ".txt");
 	}
 	
 	private double calculateMaxPossibility() {
